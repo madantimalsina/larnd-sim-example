@@ -29,7 +29,13 @@ podman-hpc migrate larnd-sim
 
 ## Running it
 
-First, enter the container:
+It's a good idea to grab a dedicated GPU. Assuming that `myproject` is the NERSC project you want to charge:
+
+``` bash
+salloc -q shared -C gpu -t 20 --gpus-per-task 1 --ntasks 1 -A myproject_g
+```
+
+Now enter the container:
 
 ``` bash
 podman-hpc run --gpu --rm -it larnd-sim /bin/bash
