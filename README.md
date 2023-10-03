@@ -1,50 +1,37 @@
-# larnd-sim container
+# larnd-sim example
 
-This is a minimal container for running
+This is a minimal example for running
 [larnd-sim](https://github.com/DUNE/larnd-sim) on Perlmutter at NERSC.
 
 ## Building it
 
-First, a couple of input files must be copied into this directory before they can be bundled into the container:
+Start by cloning and entering this repository:
 
 ``` bash
-./copy_inputs.sh
+git clone https://github.com/lbl-neutrino/larnd-sim-example.git
+cd larnd-sim-example
 ```
 
-This will create and populate the `inputs` directory.
-
-Next, build the image:
+Then run the installer:
 
 ``` bash
-podman-hpc build -t larnd-sim .
+./install_larnd_sim.sh
 ```
 
-At this point, the `inputs` directory can be deleted.
-
-To make the image available on other nodes:
-
-``` bash
-podman-hpc migrate larnd-sim
-```
+This will locally clone `larnd-sim` and create a Python virtual environment `larnd-sim.venv` for its dependencies.
 
 ## Running it
 
-It's a good idea to grab a dedicated GPU. Assuming that `myproject` is the NERSC project you want to charge:
+It's a good idea to grab a dedicated GPU:
 
 ``` bash
-salloc -q shared -C gpu -t 20 --gpus-per-task 1 --ntasks 1 -A myproject_g
-```
-
-Now enter the container:
-
-``` bash
-podman-hpc run --gpu --rm -it larnd-sim /bin/bash
+salloc -q shared -C gpu -t 20 --gpus-per-task 1 --ntasks 1 -A dune_g
 ```
 
 Then launch the simulation:
 
 ``` bash
-/software/run_larnd_sim.sh
+./run_larnd_sim.sh
 ```
 
-The output of the simulation will show up in the `/outputs` directory inside the container.
+You can override the default input file (i.e. the output from edep-sim) by passing a file on the command line (see the top of `run_larnd_sim.sh`).
