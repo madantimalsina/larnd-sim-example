@@ -1,7 +1,10 @@
 #!/usr/bin/env bash
 
+module unload python 2>/dev/null
+module unload cudatoolkit 2>/dev/null
+
 module load cudatoolkit/11.7
-module load python/3.9-anaconda-2021.11
+module load python/3.11
 
 python3 -m venv larnd-sim.venv
 source larnd-sim.venv/bin/activate
