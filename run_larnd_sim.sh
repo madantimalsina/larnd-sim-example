@@ -20,6 +20,25 @@ out_file=$(basename $in_file .hdf5 | sed 's/convert2h5/larnd/' | sed 's/.EDEPSIM
 out_dir=$SCRATCH/larnd-sim-output
 mkdir -p "$out_dir"
 
+nsys=/global/common/software/dune/mkramer/misc_software/nsight-systems-2023.4.1/bin/nsys
+ncu=/global/common/software/dune/mkramer/misc_software/NVIDIA-Nsight-Compute-2024.1/ncu
+
+run_in_nsys() {
+    mkdir -p $out_dir/nsys
+    # --cudabacktrace=all gives us a crash
+    # nsys profile --cuda-memory-usage=true --cudabacktrace=all --python-backtrace=cuda --python-sampling=true \
+    $nsys profile --cuda-memory-usage=true --python-backtrace=cuda --python-sampling=true \
+        -o $out_dir/nsys/nsys-report%n "$@"
+}
+
+run_in_ncu() {
+    mkdir -p $out_dir/ncu
+    dcgmi profile --pause
+    $ncu --kernel-id :::5 -o $out_dir/ncu/ncu-report.$now "$@"
+    # $ncu -o $out_dir/ncu/ncu-report.$now "$@"
+    dcgmi profile --resume
+}
+
 simulate_pixels.py 2x2_mod2mod_variation \
     --input_filename "$in_file" \
     --output_filename "$out_dir/$out_file" \
