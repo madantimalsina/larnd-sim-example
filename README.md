@@ -1,8 +1,8 @@
-# larnd-sim example
+# larnd-sim example (Hackathon edition)
 
-This is a minimal example for running [larnd-sim](https://github.com/DUNE/larnd-sim) on Perlmutter at NERSC.
+This is a minimal example for running [larnd-sim](https://github.com/DUNE/larnd-sim) on Perlmutter at NERSC. For the purposes of the hackathon, we also discuss running miniapps, profilers, tests, etc.
 
-## Installing it
+## Installation
 
 Note: CFS and `$HOME` tend to struggle with Python virtual environments, so I recommend that you do the following steps in a directory on `$PSCRATCH` (but commit/push any code changes that you don't want to fall victim to `$PSCRATCH`'s purge policy!).
 
@@ -21,7 +21,7 @@ Then run the installer:
 
 This will locally clone `larnd-sim` and create a Python virtual environment `larnd-sim.venv` for its dependencies. Since `larnd-sim` is installed with the `-e` option to `pip install`, you don't need to re-run `pip install` after modifying the code.
 
-## Running it
+## Running the full simulation
 
 It's a good idea to grab a dedicated 80GB GPU:
 
@@ -44,9 +44,18 @@ Once you've got a GPU to yourself, launch the simulation:
 ./run_larnd_sim.sh
 ```
 
-You can override the default input file (i.e. the output from edep-sim) by passing a file on the command line (see the top of `run_larnd_sim.sh`). The output will end up in a timestamped file under `$SCRATCH/larnd-sim-output`.
+### Controlling the run
 
-## Validating the output
+The following environment variables can be used:
+
+- `LARNDSIM_CONFIG`: Sets the configuration of the simulation. The default is `2x2`. For production we typically use `2x2_mod2mod_variation`.
+- `LARNDSIM_MAX_EVENTS`: Can be used to limit the number of events simulated.
+- `LARNDSIM_PROFILER`: Can be set to `nsys` or `ncu` to run in Nsight Systems or Nsight Compute, respectively
+- `LARNDSIM_INPUT_FILE`: Can be used to override the default input file.
+
+Another useful parameter is the `BATCH_SIZE` variable in the simulation properties file.
+
+## Producing validation plots
 
 You can produce a PDF of validation plots as follows:
 
@@ -55,3 +64,17 @@ You can produce a PDF of validation plots as follows:
 ```
 
 The PDF file will be produced in the same directory as the HDF5 file.
+
+## Running integration tests
+
+Run `larnd-sim/cli/compare_files.py`.
+
+## Running miniapps
+
+### `calc_light_det_response`
+
+### `get_adc_values`
+
+### `tracks_current_mc`
+
+## Using the profiling output
