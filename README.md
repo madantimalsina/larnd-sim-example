@@ -104,4 +104,12 @@ Run `larnd-sim/cli/compare_files.py`.
 
 ## Using the profiling output
 
-Use nsys-ui and ncu-ui.
+### Nsight Systems
+
+The output (an `nsys-rep` file) can be opened with `nsys-ui` from Nsight Systems 2023.4.1:
+
+![NSight Systems screenshot](assets/nsight_systems.png)
+
+### Nsight Compute
+
+The output (an `ncu-rep` file) can be opened with `ncu-ui` from Nsight Compute 2024.1.
