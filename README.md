@@ -45,7 +45,7 @@ But the `shared` QOS typically will leave you waiting in the queue, while `inter
 Once you've got a GPU to yourself, launch the simulation:
 
 ``` bash
-./run.sh larnd-sim.sh
+./run.sh ./larnd-sim.sh
 ```
 
 ### Controlling the run
