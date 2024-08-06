@@ -12,6 +12,9 @@ pip install --upgrade pip setuptools wheel
 # For validation plots:
 # pip install matplotlib awkward
 
+# To support CUDA 12.4 with the older kernel driver on Perlmutter
+pip install --extra-index-url https://pypi.nvidia.com pynvjitlink-cu12
+
 git clone -b hackathon2024 https://github.com/DUNE/larnd-sim
 cd larnd-sim
 pip install cupy-cuda12x==13.1.0
