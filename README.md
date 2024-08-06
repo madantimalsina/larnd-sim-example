@@ -21,6 +21,10 @@ Then run the installer:
 
 This will locally clone `larnd-sim` and create a Python virtual environment `larnd-sim.venv` for its dependencies. Since `larnd-sim` is installed with the `-e` option to `pip install`, you don't need to re-run `pip install` after modifying the code.
 
+## The wrapper script
+
+For convenience, we wrap all invocations of the simulation and miniapps in the `run.sh` wrapper script, which takes care of environment setup, profiling, etc.
+
 ## Running the full simulation
 
 It's a good idea to grab a dedicated 80GB GPU:
@@ -41,7 +45,7 @@ But the `shared` QOS typically will leave you waiting in the queue, while `inter
 Once you've got a GPU to yourself, launch the simulation:
 
 ``` bash
-./run_larnd_sim.sh
+./run.sh larnd-sim.sh
 ```
 
 ### Controlling the run
@@ -52,8 +56,17 @@ The following environment variables can be used:
 - `LARNDSIM_MAX_EVENTS`: Can be used to limit the number of events simulated.
 - `LARNDSIM_PROFILER`: Can be set to `nsys` or `ncu` to run in Nsight Systems or Nsight Compute, respectively
 - `LARNDSIM_INPUT_FILE`: Can be used to override the default input file.
+- `LARNDSIM_DISABLE_CUPY_MEMPOOL`: Disable the Cupy memory pool
 
 Another useful parameter is the `BATCH_SIZE` variable in the simulation properties file.
+
+### Producing miniapp inputs
+
+The following environment variables will cause simulate_pixels.py to dump the kernel's input arrays to a pickle file (and then exit).
+
+- `LARNDSIM_DUMP4MINIAPP_CALC_LIGHT_DET_RESPONSE`
+- `LARNDSIM_DUMP4MINIAPP_GET_ADC_VALUES`
+- `LARNDSIM_DUMP4MINIAPP_TRACKS_CURRENT_MC`
 
 ## Producing validation plots
 
@@ -73,8 +86,22 @@ Run `larnd-sim/cli/compare_files.py`.
 
 ### `calc_light_det_response`
 
+``` bash
+./run.sh larnd-sim/miniapps/calc_light_det_response.py
+```
+
 ### `get_adc_values`
+
+``` bash
+./run.sh larnd-sim/miniapps/get_adc_values.py
+```
 
 ### `tracks_current_mc`
 
+``` bash
+./run.sh larnd-sim/miniapps/tracks_current_mc.py
+```
+
 ## Using the profiling output
+
+Use nsys-ui and ncu-ui.
