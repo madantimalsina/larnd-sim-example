@@ -48,6 +48,8 @@ Once you've got a GPU to yourself, launch the simulation:
 ./run.sh ./larnd-sim.sh
 ```
 
+The output file will show up in `$SCRATCH/larnd-sim-output`.
+
 ### Controlling the run
 
 The following environment variables can be used:
@@ -109,7 +111,7 @@ This one's about 10%. (Note: The miniapp is running faster than expected. Need t
 
 ## Using the profiling output
 
-After setting the `LARNDSIM_PROFILER` environment variable to `nsys` or `ncu`
+After setting the `LARNDSIM_PROFILER` environment variable to `nsys` or `ncu` and running the simulation (or a miniapp), the profiling output will be available in `$SCRATCH/larnd-sim-output/nsys`. This output can be copied to your machine and inspected in the appropriate GUI, as follows:
 
 ### Nsight Systems
 
