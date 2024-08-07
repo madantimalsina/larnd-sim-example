@@ -85,6 +85,8 @@ The PDF file will be produced in the same directory as the HDF5 file.
 
 ## Running miniapps
 
+Each of these miniapps supports the option `--output-file`, which can be used to specify the name of a pickle file for the output of the (first run of the) kernel. These outputs can be compared using `larnd-sim/cli/compare_miniapp_output.py`.
+
 ### `calc_light_det_response`
 
 This kernel takes up some 50% of the runtime in a nominal simulation.
