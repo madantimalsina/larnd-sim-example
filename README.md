@@ -95,6 +95,8 @@ This kernel takes up some 50% of the runtime in a nominal simulation.
 ./run.sh larnd-sim/miniapps/calc_light_det_response.py
 ```
 
+Performance baseline: 940 ms
+
 ### `get_adc_values`
 
 This one takes up about 25%.
@@ -103,6 +105,8 @@ This one takes up about 25%.
 ./run.sh larnd-sim/miniapps/get_adc_values.py
 ```
 
+Performance baseline: 490 ms
+
 ### `tracks_current_mc`
 
 This one's about 10%. (Note: The miniapp is running faster than expected. Need to verify that inputs are representative of the full simulation.)
@@ -110,6 +114,8 @@ This one's about 10%. (Note: The miniapp is running faster than expected. Need t
 ``` bash
 ./run.sh larnd-sim/miniapps/tracks_current_mc.py
 ```
+
+Performance baseline: 5 ms (not to be trusted)
 
 ## Using the profiling output
 
