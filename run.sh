@@ -12,6 +12,8 @@ source larnd-sim.venv/bin/activate
 nsys=/global/common/software/dune/mkramer/misc_software/nsight-systems-2023.4.1/bin/nsys
 ncu=/global/common/software/dune/mkramer/misc_software/NVIDIA-Nsight-Compute-2024.1/ncu
 
+now=$(date -u +%Y%m%dT%H%M%SZ)
+
 out_dir=$SCRATCH/larnd-sim-output
 mkdir -p "$out_dir"
 
