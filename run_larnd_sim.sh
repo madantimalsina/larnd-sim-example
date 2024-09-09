@@ -39,7 +39,10 @@ run_in_ncu() {
     dcgmi profile --resume
 }
 
-simulate_pixels.py 2x2_mod2mod_variation \
+default_config=2x2
+config=${LARNDSIM_CONFIG:-$default_config}
+
+simulate_pixels.py "$config" \
     --input_filename "$in_file" \
     --output_filename "$out_dir/$out_file" \
     --rand_seed 321
