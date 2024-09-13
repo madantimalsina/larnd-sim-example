@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-default_in_file="/global/cfs/cdirs/dune/www/data/2x2/simulation/mkramer_dev/larnd-sim-example/MiniRun5_1E19_RHC.convert2h5.00123.EDEPSIM.hdf5"
+default_in_file="/global/cfs/cdirs/dune/www/data/2x2/simulation/productions/MiniRun5_1E19_RHC/MiniRun5_1E19_RHC.convert2h5/EDEPSIM_H5/0000000/MiniRun5_1E19_RHC.convert2h5.0000012.EDEPSIM.hdf5"
 
 # allow custom input file to be passed via command line
 in_file=${1:-$default_in_file}
