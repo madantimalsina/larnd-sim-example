@@ -1,27 +1,21 @@
 #!/usr/bin/env bash
 
-default_in_file="/global/cfs/cdirs/dune/www/data/2x2/simulation/productions/MiniRun5_1E19_RHC/MiniRun5_1E19_RHC.convert2h5/EDEPSIM_H5/0000000/MiniRun5_1E19_RHC.convert2h5.0000012.EDEPSIM.hdf5"
-
-# allow custom input file to be passed via command line
-in_file=${1:-$default_in_file}
-
 module unload python 2>/dev/null
 module unload cudatoolkit 2>/dev/null
 
-module load cudatoolkit/11.7
+module load cudatoolkit/12.4
 module load python/3.11
 
 cd $(dirname "${BASH_SOURCE[0]}")
 source larnd-sim.venv/bin/activate
 
-now=$(date -u +%Y%m%dT%H%M%SZ)
-
-out_file=$(basename $in_file .hdf5 | sed 's/convert2h5/larnd/' | sed 's/.EDEPSIM//')."$now".LARNDSIM.hdf5
-out_dir=$SCRATCH/larnd-sim-output
-mkdir -p "$out_dir"
-
 nsys=/global/common/software/dune/mkramer/misc_software/nsight-systems-2023.4.1/bin/nsys
 ncu=/global/common/software/dune/mkramer/misc_software/NVIDIA-Nsight-Compute-2024.1/ncu
+
+now=$(date -u +%Y%m%dT%H%M%SZ)
+
+out_dir=$SCRATCH/larnd-sim-output
+mkdir -p "$out_dir"
 
 run_in_nsys() {
     mkdir -p $out_dir/nsys
@@ -39,10 +33,10 @@ run_in_ncu() {
     dcgmi profile --resume
 }
 
-default_config=2x2
-config=${LARNDSIM_CONFIG:-$default_config}
-
-simulate_pixels.py "$config" \
-    --input_filename "$in_file" \
-    --output_filename "$out_dir/$out_file" \
-    --rand_seed 321
+if [[ "$LARNDSIM_PROFILER" == "nsys" ]]; then
+    run_in_nsys "$@"
+elif [[ "$LARNDSIM_PROFILER" == "ncu" ]]; then
+    run_in_ncu "$@"
+else
+    "$@"
+fi
