@@ -1,13 +1,8 @@
 #!/usr/bin/env bash
 
-module unload python 2>/dev/null
-module unload cudatoolkit 2>/dev/null
+soure setup.inc.sh
 
-module load cudatoolkit/12.4
-module load python/3.11
-
-cd $(dirname "${BASH_SOURCE[0]}")
-source larnd-sim.venv/bin/activate
+source "$venv_name/bin/activate"
 
 nsys=/global/common/software/dune/mkramer/misc_software/nsight-systems-2023.4.1/bin/nsys
 ncu=/global/common/software/dune/mkramer/misc_software/NVIDIA-Nsight-Compute-2024.1/ncu

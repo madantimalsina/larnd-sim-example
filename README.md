@@ -1,6 +1,6 @@
-# larnd-sim example (Hackathon edition)
+# larnd-sim example
 
-This is a minimal example for running [larnd-sim](https://github.com/DUNE/larnd-sim) on Perlmutter at NERSC. For the purposes of the hackathon, we also discuss running miniapps, profilers, tests, etc.
+This is a minimal example for running and profiling [larnd-sim](https://github.com/DUNE/larnd-sim) (and associated miniapps) on Perlmutter at NERSC.
 
 ## Installation
 
@@ -9,7 +9,7 @@ Note: CFS and `$HOME` tend to struggle with Python virtual environments, so I re
 Start by cloning and entering this repository:
 
 ``` bash
-git clone -b hackathon2024 https://github.com/lbl-neutrino/larnd-sim-example.git
+git clone https://github.com/lbl-neutrino/larnd-sim-example.git
 cd larnd-sim-example
 ```
 
@@ -20,6 +20,10 @@ Then run the installer:
 ```
 
 This will locally clone `larnd-sim` and create a Python virtual environment `larnd-sim.venv` for its dependencies. Since `larnd-sim` is installed with the `-e` option to `pip install`, you don't need to re-run `pip install` after modifying the code.
+
+### CUDA version
+
+The scripts attempt to use the `CUDA_HOME` environment variable to detect the CUDA version, and then install the appropriate version of `cupy` (e.g. `cupy-cuda12x` for CUDA 12). To explicitly set the major version, do e.g. `export LARNDSIM_CUDA_VERSION=12`. The virtual environment will be named according to the CUDA version (e.g. `larnd-sim.cuda12.venv`). If you want to try a different CUDA version, you can load CUDA and then re-run the installer to create the venv.
 
 ## The wrapper script
 
@@ -63,14 +67,6 @@ The following environment variables can be used:
 
 Another parameter of interest is the `BATCH_SIZE` variable in the simulation properties file (e.g. `larnd-sim/larndsim/simulation_properties/2x2_NuMI_sim.yaml`). A smaller batch size can reduce peak memory usage but may degrade the realism of the simulation.
 
-### Producing miniapp inputs
-
-The following environment variables will cause larnd-sim to dump the kernel's input arrays to a pickle file (and then exit).
-
-- `LARNDSIM_DUMP4MINIAPP_CALC_LIGHT_DET_RESPONSE`
-- `LARNDSIM_DUMP4MINIAPP_GET_ADC_VALUES`
-- `LARNDSIM_DUMP4MINIAPP_TRACKS_CURRENT_MC`
-
 ## Validating the output
 
 Run `larnd-sim/cli/compare_files.py` to compare the simulation's output to a known good output. Good for verifying that any refactoring or optimization hasn't affected the output.
@@ -84,6 +80,17 @@ You can also produce a PDF of validation plots as follows:
 The PDF file will be produced in the same directory as the HDF5 file.
 
 ## Running miniapps
+
+The `hackathon2024` branch of larnd-sim includes miniapps for three of the most demanding kernels in the simulation; see `larnd-sim/miniapps`.
+
+### Producing miniapp inputs
+
+The following environment variables will cause larnd-sim to dump the kernel's input arrays to a pickle file (and then exit).
+
+- `LARNDSIM_DUMP4MINIAPP_CALC_LIGHT_DET_RESPONSE`
+- `LARNDSIM_DUMP4MINIAPP_GET_ADC_VALUES`
+- `LARNDSIM_DUMP4MINIAPP_TRACKS_CURRENT_MC`
+
 
 Each of these miniapps supports the option `--output-file`, which can be used to specify the name of a pickle file for the output of the (first run of the) kernel. These outputs can be compared using `larnd-sim/cli/compare_miniapp_output.py`.
 
