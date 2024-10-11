@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-soure setup.inc.sh
+source setup.inc.sh
 
 source "$venv_name/bin/activate"
 
