@@ -19,6 +19,9 @@ out_file=$(basename "$in_file" .hdf5 | sed 's/convert2h5/larnd/' | sed 's/.EDEPS
 out_dir=$SCRATCH/larnd-sim-output
 mkdir -p "$out_dir"
 
+# Prevent errors when multiple larnd-sims try to read the same input
+export HDF5_USE_FILE_LOCKING=0
+
 simulate_pixels.py "$config" \
     --input_filename "$in_file" \
     --output_filename "$out_dir/$out_file" \
