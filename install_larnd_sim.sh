@@ -1,18 +1,19 @@
 #!/usr/bin/env bash
 
-module unload python 2>/dev/null
-module unload cudatoolkit 2>/dev/null
+source setup.inc.sh
 
-module load cudatoolkit/11.7
-module load python/3.11
+python3 -m venv "$venv_name"
+source "$venv_name/bin/activate"
 
-python3 -m venv larnd-sim.venv
-source larnd-sim.venv/bin/activate
 pip install --upgrade pip setuptools wheel
 # For validation plots:
 pip install matplotlib awkward
 
-git clone -b develop https://github.com/DUNE/larnd-sim
+# If we're re-running the installer for, say, a different CUDA version, then
+# `larnd-sim` already exists
+if [[ ! -d larnd-sim ]]; then
+    git clone -b develop https://github.com/DUNE/larnd-sim
+fi
+
 cd larnd-sim
-pip install cupy-cuda11x
-SKIP_CUPY_INSTALL=1 pip install -e .
+pip install -e .
