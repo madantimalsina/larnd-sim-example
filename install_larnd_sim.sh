@@ -12,7 +12,8 @@ pip install matplotlib awkward
 # If we're re-running the installer for, say, a different CUDA version, then
 # `larnd-sim` already exists
 if [[ ! -d larnd-sim ]]; then
-    git clone -b develop https://github.com/DUNE/larnd-sim
+    # git clone -b develop https://github.com/DUNE/larnd-sim
+    git clone -b develop https://github.com/madantimalsina/larnd-sim-hackathon2024
 fi
 
 cd larnd-sim
