@@ -9,7 +9,7 @@ Note: CFS and `$HOME` tend to struggle with Python virtual environments, so I re
 Start by cloning and entering this repository:
 
 ``` bash
-git clone https://github.com/lbl-neutrino/larnd-sim-example.git
+git clone https://github.com/madantimalsina/larnd-sim-example.git
 cd larnd-sim-example
 ```
 
